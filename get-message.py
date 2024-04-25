@@ -46,10 +46,6 @@ def get_message():
                 word = response['Messages'][0]['MessageAttributes']['word']['StringValue']
                 handle = response['Messages'][0]['ReceiptHandle']
 
-            # Print the message attributes - this is what you want to work with to reassemble the message
-            #    print(f"Order: {order}")
-            #    print(f"Word: {word}")
-
                 message = {"order": order, "word": word}
                 messages.append(message)
                 delete_message(handle)
@@ -79,7 +75,6 @@ def get_message():
 # Trigger the function
 if __name__ == "__main__":
     get_message()
-
 
 # Sources:
 # https://www.codecademy.com/forum_questions/50ad6fa75a0341fd44001e34
