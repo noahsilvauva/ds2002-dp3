@@ -47,11 +47,12 @@ def get_message():
                 handle = response['Messages'][0]['ReceiptHandle']
 
             # Print the message attributes - this is what you want to work with to reassemble the message
-                print(f"Order: {order}")
-                print(f"Word: {word}")
+            #    print(f"Order: {order}")
+            #    print(f"Word: {word}")
 
                 message = {"order": order, "word": word}
                 messages.append(message)
+                delete_message(handle)
 
         # If there is no message in the queue, print a message and exit    
             else:
@@ -61,8 +62,25 @@ def get_message():
     # Handle any errors that may occur connecting to SQS
         except ClientError as e:
             print(e.response['Error']['Message'])
+    
+    index = 0 
+    word_order = 0
 
-        print(messages)
+    while len(messages) > 0:
+        if messages[index]['order'] == str(word_order):
+            print(messages[index]['word'])
+            del messages[index]
+            index = 0
+            word_order += 1
+        else:
+            index += 1
+            continue
+
 # Trigger the function
 if __name__ == "__main__":
     get_message()
+
+
+# Sources:
+# https://www.codecademy.com/forum_questions/50ad6fa75a0341fd44001e34
+# https://www.w3schools.com/python/python_while_loops.asp
